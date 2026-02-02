@@ -1,0 +1,23 @@
+{
+      "page-size": "595,842",
+      "dpi": 72,
+      "margin-x": 10,
+      "margin-y": 10,
+      "font-path": "./config/Verdana.ttf",
+      "font-size": 9,
+      "line-height": 10,
+      "font-color": "#000000",
+      "alignment": "LEFT",
+      "horizontal-scale": 1.0,
+      "first-line-indent": 0,
+      "left-indent": 0,
+      "right-indent": 0,
+      "space-after": 0,
+      "space-before": 0,
+      "border-width": 0,
+      "border-padding": 0,
+      "page-bg-color": "#FFFFFF",
+      "para-bg-color": "#FFFFFF",
+      "auto-crop-width": true,
+      "auto-crop-last-page": true
+}

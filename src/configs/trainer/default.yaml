@@ -1,0 +1,29 @@
+trainer:
+  target: lightning.pytorch.trainer.Trainer
+  devices: 0
+  max_steps: -1
+  check_val_every_n_epoch: 1
+  log_every_n_steps: 10
+  num_sanity_val_steps: 2
+  gradient_clip_val: 1.0
+  reload_dataloaders_every_n_epochs: 0
+  accumulate_grad_batches: 1
+  precision: bf16-mixed
+  use_distributed_sampler: True
+  strategy: auto
+
+  logger:
+    target: lightning.pytorch.loggers.TensorBoardLogger
+    save_dir:
+    name:
+    version:
+
+callbacks:
+  - target: lightning.pytorch.callbacks.ModelCheckpoint
+    save_last: True
+    save_top_k: 3
+    mode: max
+    monitor: monitor
+    auto_insert_metric_name: False
+    filename: "epoch{epoch}__step{step}__monitor{monitor:.3f}"
+    save_weights_only: True

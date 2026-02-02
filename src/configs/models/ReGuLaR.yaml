@@ -1,0 +1,70 @@
+seed: ~
+
+model:
+  target: src.models.ReGuLaR.LitReGuLaR
+  model_kwargs:
+    model_id: Llama-3.2-1B-Instruct
+    sft_method: ReGuLaR
+    chat_template: False
+
+    do_lora: True
+    lora_config:
+      r: 128
+      lora_alpha: 32
+
+    latent_cot_config:
+      ce_weight: 1
+      embed_modeling_weight: 1
+      embed_modeling_loss: mse  # {nll, mse}
+      entropy_weight: 0
+      pred_embed_forward_weight: 0
+      pred_compressed_cot: True
+      sqrt_mean: True
+    
+    latent_policy_config:
+      lp_deterministic: False
+      lp_intermediate_size: 2048
+
+    latent_generation_config:
+      max_n_latent_forward: 64
+      latent_temperature: 1.0
+    
+    answer_generation_config:
+      max_new_tokens: 16
+      do_sample: True
+      top_p: 0.9
+      temperature: 1.0
+
+    do_rl: False
+    rl_config:
+      average_per_token_loss: False
+      random_speed_in_group: False
+      filter_dataset: False
+      exp_batch_size: 8
+      group_size: 8
+      punish_latent_length: False
+      clip_grad_norm: 1.0
+      clip_eps: 0.2
+      use_latent_loss: True
+      use_answer_loss: True
+      n_train_samples_per_epoch: 512  # better divisible to total_batch_size
+
+  training_kwargs:
+    optimizer:
+      target: torch.optim.AdamW
+      lr: 1e-4  # set to 1e-6 for rl
+      weight_decay: 0.01
+    use_scheduler: False
+    scheduler:
+      target: constant_schedule_with_warmup
+      warmup_steps: 1000
+
+trainer:
+  max_epochs: 100
+
+dataloader:
+  batch_size: 128
+  val_batch_size: 32
+  num_workers: 8
+  pin_memory: True
+  persistent_workers: True
